@@ -3,9 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\UserList;
+use App\Moddels\UserInfo;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -51,5 +53,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    
+    public function UserInfo(){
+        return $this->hasOne(UserInfo::class, 'user_id','id');
+        }
+
+
+    public function lists() {
+        return $this->belongsToMany(UserList::class, 'user_list_items','user_id','list_id')->withTimestamps();
     }
 }
